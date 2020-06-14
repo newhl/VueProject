@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="txt">
+  <input type="button" value="发送" id="btnSend">
+  <input type="button" value="关闭" id="btnClose">
+  <script>
+    var btnSend = document.querySelector('#btnSend')
+    var btnClose = document.querySelector('#btnClose')
+
+    btnSend.onclick = function () {
+      var v = document.querySelector('#txt').value
+      ws.send(v)
+    }
+
+    btnClose.onclick = function () {
+      ws.close()
+    }
+
+
+    // 1. 创建 ws对象
+    var ws = new WebSocket('wss://echo.websocket.org')
+    // 2. 当建立连接
+    ws.onopen = function () {
+      console.log('连接建立')
+      ws.send('Hello Server')
+    }
+    // ws.addEventListener('open')
+    // 3. 接收服务器返回的消息
+    ws.onmessage = function (e) {
+      // console.log(e)
+      console.log('server: ' + e.data)
+    }
+    // 4. 监听连接关闭
+    ws.onclose = function () {
+      console.log('连接关闭')
+    }
+  </script>
+</body>
+</html>
